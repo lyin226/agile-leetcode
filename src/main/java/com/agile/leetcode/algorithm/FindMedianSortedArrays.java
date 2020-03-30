@@ -1,5 +1,7 @@
 package com.agile.leetcode.algorithm;
 
+import java.util.Arrays;
+
 /**
  * @author liuyi
  * @since 2020/3/27
@@ -9,17 +11,42 @@ package com.agile.leetcode.algorithm;
  */
 public class FindMedianSortedArrays {
 
+    public static final int two = 2;
+
     public static void main(String[] args) {
+        int[] arr1 = {1,3};
+        int[] arr2 = {2,4};
+        System.out.println(findMedianSortedArrays(arr1, arr2));
+    }
+
+
+    /**
+     * 找出中位数
+     * @param arr1
+     * @param arr2
+     * @return
+     */
+    public static double findMedianSortedArrays(int[] arr1, int[] arr2) {
+        int[] result = concat(arr1, arr2);
+        Arrays.sort(result);
+        int length = result.length;
+        if (length % two == 0) {
+            return (double)(result[length/two] + result[length/two-1])/two;
+        } else {
+            return (double)result[length/two];
+        }
 
     }
 
-//    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-//
-//        for(int i = 0; i < nums1.length; i++) {
-//
-//            for (int j = 0; j < nums2.length; j++) {
-//
-//            }
-//        }
-//    }
+    /**
+     * 数组合并
+     * @param first
+     * @param second
+     * @return
+     */
+    public static int[] concat(int[] first, int[] second) {
+        int[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
+    }
 }
