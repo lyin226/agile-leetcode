@@ -1,13 +1,10 @@
 package com.agile.leetcode.algorithm;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author liuyi
  * @since 2020/3/27
  *
- * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+ * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
  */
 public class LengthOfLongestSubstring {
 
@@ -16,17 +13,42 @@ public class LengthOfLongestSubstring {
         System.out.println(lengthOfLongestSubstring(s));
     }
 
-    public static int lengthOfLongestSubstring(String s) {
-        int n = s.length(), ans = 0;
-        Map<Character, Integer> map = new HashMap<>();
-        for (int end = 0, start = 0; end < n; end++) {
-            char alpha = s.charAt(end);
-            if (map.containsKey(alpha)) {
-                start = Math.max(map.get(alpha), start);
-            }
-            ans = Math.max(ans, end - start + 1);
-            map.put(s.charAt(end), end + 1);
+    private static String lengthOfLongestSubstring(String s) {
+        if(s == null || s.length() == 0) {
+            return "";
         }
-        return ans;
+        int strLen = s.length();
+        int left = 0;
+        int right = 0;
+        int maxStart = 0;
+        int maxLen = 0;
+        int len = 1;
+
+        for(int i=0;i<strLen;i++){
+            left = i - 1;
+            right = i + 1;
+            while(left >= 0 && s.charAt(left) == s.charAt(i)){
+                left--;
+                len++;
+            }
+
+            while(right < strLen && s.charAt(right) == s.charAt(i)){
+                right++;
+                len++;
+            }
+            while(left >= 0 && right < strLen && s.charAt(right) == s.charAt(left)){
+                right++;
+                left--;
+                len+=2;
+            }
+
+            if(len > maxLen){
+                maxLen = len;
+                maxStart = left + 1;
+            }
+            len = 1;
+        }
+        return s.substring(maxStart,maxStart+maxLen);
     }
+
 }
